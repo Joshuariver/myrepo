@@ -1,0 +1,126 @@
+# Make WSJ-esque Über Tuesday Democrat Delegate Cartograms in R with {catchpole}
+# https://www.r-bloggers.com/make-wsj-esque-uber-tuesday-democrat-delegate-cartograms-in-r-with-catchpole/
+#
+
+library(catchpole) # hrbrmstr/catchpole
+
+plot(delegates_map()[1])
+
+delegates_map()
+
+
+
+library(sf)
+library(catchpole) # hrbrmstr/catchpole
+library(hrbrthemes)
+library(tidyverse)
+
+gg_catchpole() +
+  theme_ft_rc(grid="") +
+  theme(legend.position = "bottom")
+
+
+
+# BONUS
+
+library(hrbrthemes) 
+library(waffle)
+library(geofacet)
+library(tidyverse)
+
+jsonlite::fromJSON(
+  url("https://asset.wsj.net/wsjnewsgraphics/election/2020/delegates.json"),
+  simplifyDataFrame = FALSE
+) -> del
+
+c(
+  "Biden" = "#5ac4c2",
+  "Sanders" = "#63bc51",
+  "Warren" = "#9574ae",
+  "Buttigieg" = "#007bb1",
+  "Klobuchar" = "#af973a",
+  "Bloomberg" = "#AA4671",
+  "Steyer" = "#4E4EAA",
+  "Yang" = "#C76C48",
+  "Gabbard" = "#7B8097"
+) -> dcols
+
+bind_cols(del$data$US$delCount) %>% 
+  gather(candidate, delegates) %>% 
+  filter(delegates > 0) %>%
+  arrange(desc(delegates)) %>% 
+  mutate(candidate = fct_inorder(candidate)) %>%
+  ggplot(aes(candidate, delegates)) +
+  geom_col(fill = ggthemes::tableau_color_pal()(1), width = 0.55) +
+  labs(
+    x = NULL, y = "# Delegates",
+    title = "2020 Democrat POTUS Race Delegate Counts",
+    subtitle = sprintf("Date: %s", Sys.Date()),
+    caption = "Data source: WSJ \n@hrbrmstr #rstats"
+  ) +
+  theme_ipsum_rc(grid="Y")
+
+
+# Make WSJ-esque Über Tuesday Democrat Delegate Cartograms in R with {catchpole}
+# https://www.r-bloggers.com/make-wsj-esque-uber-tuesday-democrat-delegate-cartograms-in-r-with-catchpole/
+#
+
+library(catchpole) # hrbrmstr/catchpole
+
+plot(delegates_map()[1])
+
+delegates_map()
+
+
+
+library(sf)
+library(catchpole) # hrbrmstr/catchpole
+library(hrbrthemes)
+library(tidyverse)
+
+gg_catchpole() +
+  theme_ft_rc(grid="") +
+  theme(legend.position = "bottom")
+
+
+
+# BONUS
+
+library(hrbrthemes) 
+library(waffle)
+library(geofacet)
+library(tidyverse)
+
+jsonlite::fromJSON(
+  url("https://asset.wsj.net/wsjnewsgraphics/election/2020/delegates.json"),
+  simplifyDataFrame = FALSE
+) -> del
+
+c(
+  "Biden" = "#5ac4c2",
+  "Sanders" = "#63bc51",
+  "Warren" = "#9574ae",
+  "Buttigieg" = "#007bb1",
+  "Klobuchar" = "#af973a",
+  "Bloomberg" = "#AA4671",
+  "Steyer" = "#4E4EAA",
+  "Yang" = "#C76C48",
+  "Gabbard" = "#7B8097"
+) -> dcols
+
+bind_cols(del$data$US$delCount) %>% 
+  gather(candidate, delegates) %>% 
+  filter(delegates > 0) %>%
+  arrange(desc(delegates)) %>% 
+  mutate(candidate = fct_inorder(candidate)) %>%
+  ggplot(aes(candidate, delegates)) +
+  geom_col(fill = ggthemes::tableau_color_pal()(1), width = 0.55) +
+  labs(
+    x = NULL, y = "# Delegates",
+    title = "2020 Democrat POTUS Race Delegate Counts",
+    subtitle = sprintf("Date: %s", Sys.Date()),
+    caption = "Data source: WSJ \n@hrbrmstr #rstats"
+  ) +
+  theme_ipsum_rc(grid="Y")
+
+
